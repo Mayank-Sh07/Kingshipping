@@ -1,18 +1,27 @@
 // import { useState, useContext, useEffect } from 'react'
 import Head from "next/head";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import ReactCardCarousel from "react-card-carousel";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 // MUI ICONS
-import Services from "@material-ui/icons/FlightTakeoff";
-import Clients from "@material-ui/icons/BusinessCenterRounded";
+import Services from "@material-ui/icons/DirectionsBoat";
+import Clients from "@material-ui/icons/CardTravel";
 import Mail from "@material-ui/icons/Mail";
 import Phone from "@material-ui/icons/Phone";
 import WhatsApp from "@material-ui/icons/WhatsApp";
+import MeticulousIcon from "@material-ui/icons/TuneRounded";
+import ReliableIcon from "@material-ui/icons/AlarmOnRounded";
+import ExperiencedIcon from "@material-ui/icons/BusinessCenter";
 
 const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   heroContainer: {
@@ -27,7 +36,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   hero: {
     position: "absolute",
     left: "5%",
-    top: "21%",
+    top: "19%",
     [breakpoints.up("lg")]: {
       left: "10%",
     },
@@ -45,17 +54,33 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
       fontSize: "64px",
     },
     [breakpoints.only("sm")]: {
-      fontSize: "55px",
+      fontSize: "56px",
     },
     [breakpoints.only("xs")]: {
-      fontSize: "32px",
+      fontSize: "34px",
     },
   },
+  tagSubtitle: {
+    maxWidth: "660px",
+    [breakpoints.only("md")]: {
+      maxWidth: "580px",
+    },
+    [breakpoints.only("sm")]: {
+      maxWidth: "490px",
+    },
+    [breakpoints.only("xs")]: {
+      maxWidth: "260px",
+      fontSize: "0.65em",
+      lineHeight: "1.180",
+    },
+    lineHeight: "1.35",
+    color: "rgb(230,230,230)",
+  },
   btnContainer: {
-    marginTop: spacing(8),
+    marginTop: spacing(5),
     marginLeft: "2px",
     [breakpoints.only("xs")]: {
-      marginTop: spacing(6),
+      marginTop: spacing(2),
     },
   },
   navBtn: {
@@ -113,6 +138,114 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
       backgroundColor: palette.common.white,
     },
   },
+  paper: {
+    borderRadius: "4px",
+    transform: "translateY(-8px)",
+    position: "relative",
+    backgroundColor: palette.common.white,
+    width: "98%",
+  },
+  contentContainer: {
+    backgroundColor: "transparent",
+    textAlign: "center",
+    maxWidth: 1080,
+    padding: spacing(4, 1),
+  },
+  title: {
+    color: palette.common.black,
+    paddingTop: spacing(8),
+    marginBottom: spacing(2),
+    fontSize: "4em",
+    fontWeight: 600,
+    [breakpoints.down("sm")]: {
+      fontSize: "3em",
+    },
+    [breakpoints.only("xs")]: {
+      paddingTop: spacing(6),
+    },
+  },
+  sectionDescription: {
+    color: "#808080",
+    lineHeight: "1.4",
+    [breakpoints.down("sm")]: {
+      lineHeight: "1.315",
+    },
+    [breakpoints.only("xs")]: {
+      fontSize: "18px",
+    },
+  },
+  infoContainer: {
+    paddingTop: spacing(6),
+  },
+  infoGrid: {
+    padding: spacing(1),
+  },
+  infoCard: {
+    padding: spacing(1),
+    maxWidth: 350,
+    margin: "auto",
+  },
+  infoIcon: {
+    fontSize: "6em",
+    margin: spacing(2, 0),
+    color: palette.primary.dark,
+  },
+  infoTitle: {
+    fontWeight: 600,
+    margin: spacing(1, 0),
+    color: palette.primary.main,
+  },
+  clientCarousel: {
+    height: "350px",
+    [breakpoints.up("md")]: {
+      height: "500px",
+    },
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  cardStyle: {
+    height: "280px",
+    width: "220px",
+    textAlign: "center",
+    background: palette.primary.main,
+    borderRadius: "8px",
+    position: "relative",
+    border: "1px solid",
+    [breakpoints.up("md")]: {
+      height: "410px",
+      width: "320px",
+    },
+  },
+  cardMedia: {
+    height: "190px",
+    [breakpoints.up("md")]: {
+      height: "260px",
+    },
+    backgroundColor: "white",
+    objectFit: "contain",
+  },
+  cardTitle: {
+    color: "white",
+    fontWeight: 600,
+    [breakpoints.up("md")]: {
+      fontSize: "24px",
+    },
+    [breakpoints.only("sm")]: {
+      fontSize: "20px",
+    },
+    [breakpoints.only("xs")]: {
+      fontSize: "16px",
+    },
+  },
+  cardInfo: {
+    color: "white",
+    [breakpoints.only("xs")]: {
+      lineHeight: "1.125",
+      fontSize: "0.6em",
+    },
+  },
 }));
 
 const container = {
@@ -120,8 +253,8 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.4,
+      staggerChildren: 0.4,
+      delayChildren: 0.2,
       when: "beforeChildren",
     },
   },
@@ -134,6 +267,76 @@ const item = {
 
 export default function index() {
   const classes = useStyles();
+  const infoData = [
+    {
+      icon: <MeticulousIcon className={classes.infoIcon} />,
+      title: "Meticulous",
+      body:
+        "  Lorem ipsum dolor sit, amet consectetur adipisicing elit.Dignissimos praesentium excepturi, facilis sed ex deleniti veniam dicta, nam doloremque autem facere ab, rem saepe.",
+    },
+    {
+      icon: <ReliableIcon className={classes.infoIcon} />,
+      title: "Reliable",
+      body:
+        "  Lorem ipsum dolor sit, amet consectetur adipisicing elit.Dignissimos praesentium excepturi, facilis sed ex deleniti veniam dicta, nam doloremque autem facere ab, rem saepe.",
+    },
+    {
+      icon: <ExperiencedIcon className={classes.infoIcon} />,
+      title: "Experienced",
+      body:
+        "  Lorem ipsum dolor sit, amet consectetur adipisicing elit.Dignissimos praesentium excepturi, facilis sed ex deleniti veniam dicta, nam doloremque autem facere ab, rem saepe.",
+    },
+  ];
+  const cards = [
+    {
+      brand: "Zebronics",
+      path: "/zebronicsLogo.png",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "Johnson Lifts",
+      path: "/johnsonLogo.png",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "Aachi",
+      path: "/aachiLogo.png",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "Chennai Metro",
+      path: "/chennaiMetroLogo.png",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "Banglore Metro",
+      path: "/nammaMetroLogo.jpg",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "TVS Dynamic",
+      path: "/tvsLogo.jpg",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "Tsubaki",
+      path: "/tsubakiLogo.jpg",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+    {
+      brand: "Takata",
+      path: "/takataLogo.png",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem quis modi cumque?",
+    },
+  ];
   return (
     <>
       <Head>
@@ -152,13 +355,24 @@ export default function index() {
         <div className={classes.hero}>
           <Typography
             variant="h2"
+            gutterBottom
             className={classes.tag}
             component={motion.h2}
             variants={item}
           >
-            Clearing and Forwarding,
+            Lorem ipsum dolor sit amet
             <br />
-            It's what we do Best.
+            consectetur adipisicing
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            component={motion.h2}
+            className={classes.tagSubtitle}
+            variants={item}
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore,
+            ad voluptates? Quod omnis dolore dignissimos nesciunt tempora odio.
           </Typography>
           <Grid
             container
@@ -167,14 +381,16 @@ export default function index() {
             className={classes.btnContainer}
           >
             <Grid item component={motion.div} variants={item}>
-              <Button
-                startIcon={<Services />}
-                className={classes.navBtn}
-                variant="contained"
-                size="small"
-              >
-                Services
-              </Button>
+              <Link href={"/Services"}>
+                <Button
+                  startIcon={<Services />}
+                  className={classes.navBtn}
+                  variant="contained"
+                  size="small"
+                >
+                  Services
+                </Button>
+              </Link>
             </Grid>
             <Grid item component={motion.div} variants={item}>
               <Button
@@ -190,24 +406,109 @@ export default function index() {
         </div>
         <Grid container className={classes.contacts}>
           <Grid item xs={4} component={motion.div} variants={item}>
-            <IconButton className={classes.contactIcon}>
-              <Mail />
-            </IconButton>
+            <a href="mailto: kuldeep1sharma@gmail.com">
+              <IconButton className={classes.contactIcon}>
+                <Mail />
+              </IconButton>
+            </a>
           </Grid>
           <Grid item xs={4} component={motion.div} variants={item}>
-            <IconButton className={classes.contactIcon}>
-              <Phone />
-            </IconButton>
+            <a href="tel:+919543934422">
+              <IconButton className={classes.contactIcon}>
+                <Phone />
+              </IconButton>
+            </a>
           </Grid>
           <Grid item xs={4} component={motion.div} variants={item}>
-            <IconButton className={classes.contactIcon}>
-              <WhatsApp />
-            </IconButton>
+            <a
+              href="https://api.whatsapp.com/send?phone=+919543934422&text=Hey+I%27m+interested+in+your+work"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconButton className={classes.contactIcon}>
+                <WhatsApp />
+              </IconButton>
+            </a>
           </Grid>
         </Grid>
       </Container>
-      <Container maxWidth={false}>
-        <Typography variant="h1"> Welcome Welcome Welcome Welcome </Typography>
+      <Container maxWidth={false} className={classes.paper}>
+        <Container className={classes.contentContainer} disableGutters>
+          <Typography className={classes.title} align="center">
+            {"Welcome"}
+          </Typography>
+          <Typography
+            paragraph
+            align="center"
+            className={classes.sectionDescription}
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+            unde voluptatibus sunt nesciunt quidem expedita assumenda, eum
+            laborum itaque eaque velit dolorem voluptatum, exercitationem
+            possimus quod corrupti. Quam, voluptatibus consequatur.. Tenetur
+            unde voluptatibus sunt nesciunt quidem expedita assumenda, eum
+            laborum itaque eaque velit dolorem voluptatum, exercitationem
+            possimus quod corrupti. Quam, voluptatibus consequatur.
+          </Typography>
+          <Grid container justify="center" className={classes.infoContainer}>
+            {infoData.map((info) => (
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                className={classes.infoGrid}
+                key={info.title}
+              >
+                <Paper className={classes.infoCard} elevation={0}>
+                  {info.icon}
+                  <Typography variant="body1" className={classes.infoTitle}>
+                    {info.title}
+                  </Typography>
+                  <Typography variant="caption" paragraph align="center">
+                    {info.body}
+                  </Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+          <Typography className={classes.title} align="center">
+            {"Our Clients"}
+          </Typography>
+          <Typography
+            paragraph
+            align="center"
+            className={classes.sectionDescription}
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+            unde voluptatibus sunt nesciunt quidem expedita assumenda, eum
+            laborum itaque eaque velit dolorem voluptatum, exercitationem
+            possimus quod corrupti. Quam, voluptatibus consequatur.. Tenetur
+            unde voluptatibus sunt nesciunt quidem expedita assumenda, eum
+            laborum itaque eaque velit dolorem voluptatum, exercitationem
+            possimus quod corrupti. Quam, voluptatibus consequatur.
+          </Typography>
+          <Container maxWidth="sm" className={classes.clientCarousel}>
+            <ReactCardCarousel autoplay={true} autoplay_speed={2500}>
+              {cards.map((data) => (
+                <Card className={classes.cardStyle} key={data.brand}>
+                  <CardMedia className={classes.cardMedia} image={data.path} />
+                  <CardContent>
+                    <Typography gutterBottom className={classes.cardTitle}>
+                      {data.brand}
+                    </Typography>
+                    <Typography
+                      paragraph
+                      className={classes.cardInfo}
+                      variant="caption"
+                    >
+                      {data.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </ReactCardCarousel>
+          </Container>
+        </Container>
       </Container>
     </>
   );

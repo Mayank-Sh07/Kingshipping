@@ -20,7 +20,6 @@ import Hidden from "@material-ui/core/Hidden";
 import Home from "@material-ui/icons/HomeRounded";
 import About from "@material-ui/icons/EmojiObjects";
 import Services from "@material-ui/icons/FlightTakeoff";
-import Clients from "@material-ui/icons/BusinessCenterRounded";
 import Contact from "@material-ui/icons/Info";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -148,7 +147,6 @@ export default function NavBar() {
             { label: "Home", icon: <Home />, path: "/" },
             { label: "About", icon: <About />, path: "/About" },
             { label: "Services", icon: <Services />, path: "/Services" },
-            { label: "Clients", icon: <Clients />, path: "/Clients" },
             { label: "Contact", icon: <Contact />, path: "/Contact" },
           ];
     return allLinks.filter((link) => link.path !== pathname);
