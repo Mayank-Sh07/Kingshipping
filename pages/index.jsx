@@ -249,12 +249,11 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
 }));
 
 const container = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.4,
-      delayChildren: 0.2,
+      staggerChildren: 0.275,
       when: "beforeChildren",
     },
   },
