@@ -392,14 +392,16 @@ export default function index() {
               </Link>
             </Grid>
             <Grid item component={motion.div} variants={item}>
-              <Button
-                startIcon={<Clients />}
-                className={classes.navBtn}
-                variant="contained"
-                size="small"
-              >
-                Clients
-              </Button>
+              <a href="#clients" style={{ textDecoration: "none" }}>
+                <Button
+                  startIcon={<Clients />}
+                  className={classes.navBtn}
+                  variant="contained"
+                  size="small"
+                >
+                  Clients
+                </Button>
+              </a>
             </Grid>
           </Grid>
         </div>
@@ -470,7 +472,7 @@ export default function index() {
               </Grid>
             ))}
           </Grid>
-          <Typography className={classes.title} align="center">
+          <Typography className={classes.title} align="center" id="clients">
             {"Our Clients"}
           </Typography>
           <Typography

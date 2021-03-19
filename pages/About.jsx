@@ -46,6 +46,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
     maxWidth: "1280px",
     margin: "30px auto",
     borderRadius: "4px",
+    pointerEvents: "none",
     [breakpoints.only("xs")]: {
       fontSize: "480px",
       height: "350px",

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
+import { FormspreeProvider } from "@formspree/react";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme/theme";
@@ -25,12 +26,14 @@ export default function MyApp(props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
+      <FormspreeProvider project="1635722036133232362">
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </FormspreeProvider>
     </React.Fragment>
   );
 }

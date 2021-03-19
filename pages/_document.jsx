@@ -6,7 +6,7 @@ import theme from "../theme/theme";
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" style={{ scrollBehavior: "smooth" }}>
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link

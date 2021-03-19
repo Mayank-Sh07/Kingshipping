@@ -1,5 +1,5 @@
-// import { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useForm as useFormSpree } from "@formspree/react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -46,11 +46,19 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   avatar: {
     backgroundColor: palette.primary.main,
   },
+  successMessage: {
+    backgroundColor: palette.success.main,
+  },
 }));
 
 export default function Contact() {
   const classes = useStyles();
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, reset, errors } = useForm();
+  const [formSpreeState, handleFormSpreeSubmit] = useFormSpree("contactForm");
+  const submitHandler = (event, data) => {
+    handleFormSpreeSubmit(event, data);
+    reset();
+  };
   return (
     <Container className={classes.contactContainer}>
       <Typography variant="h2" align="center" className={classes.title}>
@@ -68,7 +76,7 @@ export default function Contact() {
                   <TextField
                     margin="normal"
                     id="name"
-                    label="name"
+                    label="Name"
                     name="name"
                     autoComplete="name"
                     color="primary"
@@ -85,7 +93,7 @@ export default function Contact() {
                   <TextField
                     margin="normal"
                     id="email"
-                    label="email"
+                    label="Email"
                     name="email"
                     autoComplete="email"
                     color="primary"
@@ -93,9 +101,10 @@ export default function Contact() {
                     fullWidth
                     inputRef={register({
                       required: true,
+                      pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     })}
-                    error={errors.customerName}
-                    helperText={errors.customerName && "This field is required"}
+                    error={errors.email}
+                    helperText={errors.email && "Valid email required"}
                   />
                 </Grid>
                 <Grid item xs={11} className={classes.formItem}>
@@ -103,7 +112,7 @@ export default function Contact() {
                     variant="filled"
                     margin="normal"
                     id="message"
-                    label="your message..."
+                    label="Your message..."
                     name="message"
                     color="primary"
                     multiline
@@ -124,10 +133,19 @@ export default function Contact() {
                     size="small"
                     type="submit"
                     endIcon={<SendIcon />}
+                    disabled={formSpreeState.submitting}
                   >
                     <b>SEND</b>
                   </Button>
                 </Grid>
+                {formSpreeState.succeeded && (
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.successMessage}
+                  >
+                    Form Submitted successfully
+                  </Typography>
+                )}
               </Grid>
             </form>
           </Paper>

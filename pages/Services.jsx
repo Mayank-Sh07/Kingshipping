@@ -1,10 +1,10 @@
-// import { useState, useContext, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Grow from "@material-ui/core/Grow";
 
 import Ship from "@material-ui/icons/DirectionsBoat";
 import Flight from "@material-ui/icons/Flight";
@@ -18,6 +18,13 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
     backgroundColor: "white",
     marginTop: "96px",
   },
+  title: {
+    margin: spacing(5, "auto"),
+    fontWeight: 600,
+    [breakpoints.down("xs")]: {
+      fontSize: "52px",
+    },
+  },
   servicesContainer: {
     [breakpoints.down("md")]: {
       padding: spacing(2, 5),
@@ -26,10 +33,6 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
     margin: spacing(4, "auto"),
   },
   serviceCard: {
-    padding: spacing(4, 0),
-    [breakpoints.down("md")]: {
-      padding: spacing(2, 0),
-    },
     border: `1px solid ${palette.primary.main}`,
   },
   serviceCardImg: {
@@ -49,20 +52,15 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   },
   serviceCardTitle: {
     fontWeight: 600,
-    // margin: spacing(1, 0),
+    padding: spacing(1, 0),
     color: "white",
-    margin: "0 -0.4em",
-    padding: "0.1em 0.4em",
-    borderRadius: "0.8em 0.3em",
-    background: "transparent",
-    backgroundImage: `linear-gradient(
-      to right,
-      ${palette.primary.main},
-      ${fade(palette.primary.main, 0.9)} 4%,
-      ${fade(palette.primary.main, 0.5)}
-    )`,
-    WebkitBoxDecorationBreak: "clone",
-    boxDecorationBreak: "clone",
+    textAlign: "center",
+    width: "100%",
+    backgroundColor: palette.primary.main,
+    fontSize: "28px",
+    [breakpoints.down("xs")]: {
+      fontSize: "20px",
+    },
   },
   serviceCardDescription: {
     display: "flex",
@@ -100,6 +98,16 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
       transform: `translateX(24px)`,
     },
   },
+  borderLeft: {
+    [breakpoints.up("md")]: {
+      borderLeft: "6px solid",
+    },
+  },
+  borderRight: {
+    [breakpoints.up("md")]: {
+      borderRight: "6px solid",
+    },
+  },
 }));
 
 export default function Services() {
@@ -108,7 +116,10 @@ export default function Services() {
     {
       icon: <Ship className={classes.serviceCardSvg} />,
       direction: "row",
-      title: "Sea Freight",
+      animateDirection: "right",
+      timeout: 400,
+      title: "Sea Freight Service",
+      cardContainerClass: clsx(classes.servicesContainer, classes.borderRight),
       cardClass: clsx(classes.serviceCard, classes.shiftLeft),
       textClass: clsx(classes.serviceCardDescription, classes.leftAligned),
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi ea
@@ -123,7 +134,10 @@ export default function Services() {
     {
       icon: <Flight className={classes.serviceCardSvg} />,
       direction: "row-reverse",
-      title: "Air Freight",
+      animateDirection: "left",
+      timeout: 800,
+      title: "Air Freight Service",
+      cardContainerClass: clsx(classes.servicesContainer, classes.borderLeft),
       cardClass: clsx(classes.serviceCard, classes.shiftRight),
       textClass: clsx(classes.serviceCardDescription, classes.rightAligned),
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi ea
@@ -138,7 +152,10 @@ export default function Services() {
     {
       icon: <Clearence className={classes.serviceCardSvg} />,
       direction: "row",
+      animateDirection: "right",
+      timeout: 1200,
       title: "Customs Clearence",
+      cardContainerClass: clsx(classes.servicesContainer, classes.borderRight),
       cardClass: clsx(classes.serviceCard, classes.shiftLeft),
       textClass: clsx(classes.serviceCardDescription, classes.leftAligned),
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi ea
@@ -153,7 +170,10 @@ export default function Services() {
     {
       icon: <Warehouse className={classes.serviceCardSvg} />,
       direction: "row-reverse",
-      title: "Warehousing",
+      animateDirection: "left",
+      timeout: 1600,
+      title: "Warehousing Services",
+      cardContainerClass: clsx(classes.servicesContainer, classes.borderLeft),
       cardClass: clsx(classes.serviceCard, classes.shiftRight),
       textClass: clsx(classes.serviceCardDescription, classes.rightAligned),
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi ea
@@ -168,7 +188,10 @@ export default function Services() {
     {
       icon: <Transport className={classes.serviceCardSvg} />,
       direction: "row",
-      title: "Transportation",
+      animateDirection: "right",
+      timeout: 2000,
+      title: "Transportation Services",
+      cardContainerClass: clsx(classes.servicesContainer, classes.borderRight),
       cardClass: clsx(classes.serviceCard, classes.shiftLeft),
       textClass: clsx(classes.serviceCardDescription, classes.leftAligned),
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi ea
@@ -183,7 +206,10 @@ export default function Services() {
     {
       icon: <Ancillary className={classes.serviceCardSvg} />,
       direction: "row-reverse",
-      title: "Ancillary",
+      animateDirection: "left",
+      timeout: 2400,
+      title: "Ancillary Services",
+      cardContainerClass: clsx(classes.servicesContainer, classes.borderLeft),
       cardClass: clsx(classes.serviceCard, classes.shiftRight),
       textClass: clsx(classes.serviceCardDescription, classes.rightAligned),
       description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi ea
@@ -202,29 +228,34 @@ export default function Services() {
       disableGutters
       className={classes.servicesPageContainer}
     >
+      <Typography variant="h2" align="center" className={classes.title}>
+        Our Services
+      </Typography>
       {servicesData.map((service) => (
-        <Container
-          className={classes.servicesContainer}
-          maxWidth={"md"}
+        <Grow
+          in={true}
+          direction={service.animateDirection}
+          timeout={service.timeout}
           key={service.title}
         >
-          <Paper className={service.cardClass} elevation={6}>
-            <Grid container direction={service.direction}>
-              <Grid item xs={12} sm={4} className={classes.serviceCardImg}>
-                {service.icon}
-                <Typography
-                  variant="body1"
-                  className={classes.serviceCardTitle}
-                >
-                  {service.title}
-                </Typography>
+          <Container className={service.cardContainerClass} maxWidth={"md"}>
+            <Paper className={service.cardClass} elevation={6}>
+              <Grid container direction={service.direction}>
+                <Grid item xs={12}>
+                  <Typography className={classes.serviceCardTitle}>
+                    {service.title}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={4} className={classes.serviceCardImg}>
+                  {service.icon}
+                </Grid>
+                <Grid item xs={12} sm={8} className={service.textClass}>
+                  {service.description}
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={8} className={service.textClass}>
-                {service.description}
-              </Grid>
-            </Grid>
-          </Paper>
-        </Container>
+            </Paper>
+          </Container>
+        </Grow>
       ))}
     </Container>
   );
